@@ -3,9 +3,15 @@
     <div class="header">
       <SearchBar @update-search-term="updateSearchTerm" />
     </div>
-    <div class="list">
-      <div v-for="pokemon in pokemonsToDisplay" :key="pokemon.id">
-        <PokemonItem :pokemon="pokemon" @update-favorite="updateFavorite" />
+
+    <div v-if="pokemonsToDisplay.length === 0">
+      <NotFoundPokemon />
+    </div>
+    <div v-else>
+      <div class="list">
+        <div v-for="pokemon in pokemonsToDisplay" :key="pokemon.id">
+          <PokemonItem :pokemon="pokemon" @update-favorite="updateFavorite" />
+        </div>
       </div>
     </div>
   </div>
@@ -17,6 +23,7 @@ import SearchBar from '@/components/SearchBar.vue'
 import type { PokemonInfo } from '@/interfaces/PokemonInfo'
 import { pokemonInfomock } from '@/components/mocks/pokemonInfoMock'
 import PokemonItem from '../components/PokemonItem.vue'
+import NotFoundPokemon from '../components/NotFoundPokemon.vue'
 
 const allPokemons = ref<PokemonInfo[]>([...pokemonInfomock])
 const pokemonsToDisplay = ref<PokemonInfo[]>([...pokemonInfomock])

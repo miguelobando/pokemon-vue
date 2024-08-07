@@ -3,24 +3,27 @@ import { mount } from '@vue/test-utils'
 import DashboardView from '../DashboardView.vue'
 import SearchBar from '../../components/SearchBar.vue'
 import PokemonItem from '../../components/PokemonItem.vue'
+import NotFoundPokemon from '../../components/NotFoundPokemon.vue'
 import { pokemonInfomock } from '../../components/mocks/pokemonInfoMock'
-const MOCKED_NAME = 'Venusaur'
 
-describe('ParentComponent', () => {
-  it('renders properly', () => {
+const MOCKED_NAME = 'Venusaur'
+const NON_EXISTENT_NAME = 'NonExistentPokemon'
+
+describe('DashboardView', () => {
+  it('Should render properly', () => {
     const wrapper = mount(DashboardView, {
       global: {
-        components: { SearchBar, PokemonItem }
+        components: { SearchBar, PokemonItem, NotFoundPokemon }
       }
     })
     expect(wrapper.find('.header').exists()).toBe(true)
     expect(wrapper.find('.list').exists()).toBe(true)
   })
 
-  it('filters pokemons based on search term', async () => {
+  it('Should filter pokemons based on search term', async () => {
     const wrapper = mount(DashboardView, {
       global: {
-        components: { SearchBar, PokemonItem }
+        components: { SearchBar, PokemonItem, NotFoundPokemon }
       }
     })
 
@@ -32,10 +35,10 @@ describe('ParentComponent', () => {
     expect(displayedPokemons[0].props().pokemon.name).toBe(MOCKED_NAME)
   })
 
-  it('resets the pokemon list when search term is empty', async () => {
+  it('Should reset the pokemon list when search term is empty', async () => {
     const wrapper = mount(DashboardView, {
       global: {
-        components: { SearchBar, PokemonItem }
+        components: { SearchBar, PokemonItem, NotFoundPokemon }
       }
     })
 
@@ -47,10 +50,10 @@ describe('ParentComponent', () => {
     expect(displayedPokemons.length).toBe(pokemonInfomock.length)
   })
 
-  it('updates favorite status of a pokemon', async () => {
+  it('Should update favorite status of a pokemon', async () => {
     const wrapper = mount(DashboardView, {
       global: {
-        components: { SearchBar, PokemonItem }
+        components: { SearchBar, PokemonItem, NotFoundPokemon }
       }
     })
 
@@ -59,5 +62,19 @@ describe('ParentComponent', () => {
 
     const updatedPokemonItem = wrapper.findComponent(PokemonItem)
     expect(updatedPokemonItem.props().pokemon.favorite).toBe(true)
+  })
+
+  it('Should show NotFoundPokemon component when no pokemons are found', async () => {
+    const wrapper = mount(DashboardView, {
+      global: {
+        components: { SearchBar, PokemonItem, NotFoundPokemon }
+      }
+    })
+
+    const searchBar = wrapper.findComponent(SearchBar)
+    await searchBar.vm.$emit('update-search-term', NON_EXISTENT_NAME)
+
+    expect(wrapper.findComponent(NotFoundPokemon).exists()).toBe(true)
+    expect(wrapper.findAllComponents(PokemonItem).length).toBe(0)
   })
 })
