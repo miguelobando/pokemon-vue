@@ -22,9 +22,16 @@ const allPokemons = ref<PokemonInfo[]>([...pokemonInfomock])
 const pokemonsToDisplay = ref<PokemonInfo[]>([...pokemonInfomock])
 
 const updateSearchTerm = (newSearchTerm: string) => {
+  if (newSearchTerm === '') {
+    pokemonsToDisplay.value = [...allPokemons.value]
+    return
+  }
+
   const filteredPokemons = allPokemons.value.filter((pokemon) => {
     return pokemon.name.toLowerCase().includes(newSearchTerm.toLowerCase())
   })
+
+  pokemonsToDisplay.value = filteredPokemons
 }
 
 const updateFavorite = (id: number) => {
