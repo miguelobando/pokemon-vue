@@ -1,5 +1,7 @@
 <template>
-  <button class="btn" @click="clickFn">{{ msg }}</button>
+  <button class="btn" @click="clickFn">
+    {{ msg }}
+  </button>
 </template>
 
 <script setup lang="ts">
