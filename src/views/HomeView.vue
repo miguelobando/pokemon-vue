@@ -13,9 +13,10 @@
 </template>
 
 <script setup lang="ts">
+import router from '@/router'
 import ActionBtn from '../components/ActionBtn.vue'
 const goToDashboard = () => {
-  alert('Go to Dashboard')
+  router.push('/dashboard')
 }
 </script>
 
@@ -28,9 +29,9 @@ const goToDashboard = () => {
   background-color: aliceblue;
   padding: 2rem;
   width: 100%;
-  height: 100vh; /* Ensure it takes the full viewport height */
+  height: 100vh;
   box-sizing: border-box;
-  overflow: hidden; /* Prevent scrolling */
+  overflow: hidden;
 }
 
 .img-container {
