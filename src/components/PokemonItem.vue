@@ -2,20 +2,14 @@
   <div class="pokemon-item">
     <p class="text-info">{{ pokemon.name }}</p>
     <div v-if="pokemon.favorite">
-      <img
-        @click="handleFavorite"
-        src="@/assets/selected-star.svg"
-        alt="Selected Star"
-        class="select-info-img"
-      />
+      <div @click="handleFavorite">
+        <starIcon />
+      </div>
     </div>
     <div v-else>
-      <img
-        @click="handleFavorite"
-        src="@/assets/non-selected-star.svg"
-        alt="Non Selected Star"
-        class="select-info-img"
-      />
+      <div @click="handleFavorite">
+        <nonStarIcon />
+      </div>
     </div>
   </div>
 </template>
@@ -23,6 +17,8 @@
 <script setup lang="ts">
 import { defineProps, defineEmits } from 'vue'
 import type { PokemonInfo } from '../interfaces/PokemonInfo'
+import starIcon from '../assets/selected-star.svg'
+import nonStarIcon from '../assets/non-selected-star.svg'
 
 const props = defineProps<{
   pokemon: PokemonInfo
