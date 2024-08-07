@@ -2,7 +2,7 @@
   <div class="footer">
     <div class="footer-content">
       <IconActionBtn actionType="all" msg="All" :clickFn="goToDashboard" />
-      <IconActionBtn actionType="favorites" msg="Favorites" :clickFn="goToAbout" />
+      <IconActionBtn actionType="favorites" msg="Favorites" :clickFn="goToFavorites" />
     </div>
   </div>
 </template>
@@ -15,7 +15,7 @@ const goToDashboard = () => {
   router.push('/dashboard')
 }
 
-const goToAbout = () => {
+const goToFavorites = () => {
   router.push('/favorites')
 }
 
