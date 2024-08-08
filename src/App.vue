@@ -7,7 +7,9 @@
     />
   </header>
   <RouterView />
-  <FooterBar />
+  <div v-show="router.currentRoute.value.path != '/'">
+    <FooterBar />
+  </div>
 </template>
 
 <script setup lang="ts">
