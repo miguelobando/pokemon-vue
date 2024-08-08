@@ -133,11 +133,8 @@ onMounted(() => {
   gap: 0.5rem;
 }
 
-@media (min-width: 1024px) {
-  .about {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
+@media only screen and (min-device-width: 600px) {
+  .container {
   }
 }
 </style>

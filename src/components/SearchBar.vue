@@ -62,4 +62,10 @@ body {
 .search-input::placeholder {
   color: #cfd5db;
 }
+
+@media only screen and (max-width: 600px) {
+  .search-bar {
+    width: 100%;
+  }
+}
 </style>

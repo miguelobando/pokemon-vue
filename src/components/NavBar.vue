@@ -72,7 +72,7 @@ onMounted(() => {
     position: relative;
     bottom: auto;
     left: auto;
-    width: 100%;
+    width: 100vw;
     padding: 1rem;
     background-color: #fff;
     color: #fff;
@@ -84,7 +84,7 @@ onMounted(() => {
     display: flex;
     padding-left: 1rem;
     padding-right: 1rem;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
     gap: 3rem;
   }

@@ -64,4 +64,10 @@ const openDetailsModal = () => {
   font-weight: 500;
   cursor: pointer;
 }
+
+@media only screen and (min-device-width: 400px) {
+  .pokemon-item {
+    width: 80vw;
+  }
+}
 </style>
