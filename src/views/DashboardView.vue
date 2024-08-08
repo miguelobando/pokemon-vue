@@ -34,25 +34,33 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import SearchBar from '@/components/SearchBar.vue'
-import type { PokemonInfo } from '@/interfaces/PokemonInfo'
 import { pokemonInfomock } from '@/components/mocks/pokemonInfoMock'
 import PokemonItem from '../components/PokemonItem.vue'
 import NotFoundPokemon from '../components/NotFoundPokemon.vue'
 import DetailsModal from '../components/modal/DetailsModal.vue'
+import type { PokemonInfo } from '@/interfaces/PokemonInfo'
 import { usePokeApi } from '@/composables/usePokeAPI'
 import type { PokemonWithURL } from '@/interfaces/ApiResponses'
+import { fillFavorites } from '@/utils/fillFavorites'
+import { useAllPokemonsStore } from '@/stores/useAllPokemonsStore'
+import { useLocalStorage } from '@/composables/useLocalStorage'
+
 const { getAllPokemons, isLoading, getPokemonByName } = usePokeApi()
+const { recoverFavoritePokemons, updateFavoritePokemons } = useLocalStorage()
+const allPokemonsStore = useAllPokemonsStore()
+
 const allPokemons = ref<PokemonWithURL[]>([])
 const pokemonsToDisplay = ref<PokemonWithURL[]>([])
 const isModalVisible = ref(false)
 
-// This is used as referefence
 const detailedPokemon = ref<PokemonInfo>(pokemonInfomock[0])
 
 onMounted(() => {
   getAllPokemons().then((data) => {
-    allPokemons.value = data
-    pokemonsToDisplay.value = data
+    const localFavoritePokemons = recoverFavoritePokemons()
+    const filteredFavoritePokemons = fillFavorites(data, localFavoritePokemons)
+    allPokemonsStore.populateAllPokemons(filteredFavoritePokemons)
+    pokemonsToDisplay.value = filteredFavoritePokemons
   })
 })
 
@@ -75,6 +83,7 @@ const updateFavorite = (name: string) => {
     pokemonsToDisplay.value[indexOfFavorite].favorite =
       !pokemonsToDisplay.value[indexOfFavorite].favorite
   }
+  updateFavoritePokemons(name)
 }
 
 const openDetailsModal = async (pokemonName: string) => {
@@ -83,7 +92,7 @@ const openDetailsModal = async (pokemonName: string) => {
       detailedPokemon.value = pokemon
       isModalVisible.value = true
     } else {
-      console.log('pokemon not found')
+      console.error('pokemon not found')
     }
   })
 }
