@@ -10,10 +10,21 @@
     <div v-else>
       <div class="list">
         <div v-for="pokemon in pokemonsToDisplay" :key="pokemon.id">
-          <PokemonItem :pokemon="pokemon" @update-favorite="updateFavorite" />
+          <PokemonItem
+            :pokemon="pokemon"
+            @update-favorite="updateFavorite"
+            @open-details-modal="openDetailsModal"
+          />
         </div>
       </div>
     </div>
+
+    <DetailsModal
+      @update-favorite="updateFavorite"
+      :pokemon="detailedPokemon"
+      v-if="isModalVisible"
+      @close="closeModal"
+    />
   </div>
 </template>
 
@@ -24,9 +35,20 @@ import type { PokemonInfo } from '@/interfaces/PokemonInfo'
 import { pokemonInfomock } from '@/components/mocks/pokemonInfoMock'
 import PokemonItem from '../components/PokemonItem.vue'
 import NotFoundPokemon from '../components/NotFoundPokemon.vue'
+import DetailsModal from '../components/modal/DetailsModal.vue'
 
 const allPokemons = ref<PokemonInfo[]>([...pokemonInfomock])
 const pokemonsToDisplay = ref<PokemonInfo[]>([...pokemonInfomock])
+const isModalVisible = ref(false)
+const detailedPokemon = ref<PokemonInfo>({
+  id: 1,
+  name: 'Bulbasaur',
+  imageURL: '',
+  types: ['Grass'],
+  weight: 69,
+  height: 7,
+  favorite: false
+})
 
 const updateSearchTerm = (newSearchTerm: string) => {
   if (newSearchTerm === '') {
@@ -47,6 +69,15 @@ const updateFavorite = (id: number) => {
     pokemonsToDisplay.value[indexOfFavorite].favorite =
       !pokemonsToDisplay.value[indexOfFavorite].favorite
   }
+}
+
+const openDetailsModal = (pokemon: PokemonInfo) => {
+  isModalVisible.value = true
+  detailedPokemon.value = pokemon
+}
+
+const closeModal = () => {
+  isModalVisible.value = false
 }
 </script>
 

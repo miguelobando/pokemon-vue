@@ -1,6 +1,6 @@
 <template>
   <div class="pokemon-item">
-    <p class="text-info">{{ pokemon.name }}</p>
+    <p class="text-info" @click="openDetailsModal">{{ pokemon.name }}</p>
     <div v-if="pokemon.favorite" class="favorite-icon">
       <div @click="handleFavorite">
         <starIcon />
@@ -15,6 +15,7 @@
 </template>
 
 <script setup lang="ts">
+import { defineProps, defineEmits } from 'vue'
 import type { PokemonInfo } from '../interfaces/PokemonInfo'
 import starIcon from '../assets/selected-star.svg'
 import nonStarIcon from '../assets/non-selected-star.svg'
@@ -25,10 +26,15 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   (e: 'update-favorite', id: number): void
+  (e: 'open-details-modal', pokemon: PokemonInfo): void
 }>()
 
 const handleFavorite = () => {
   emit('update-favorite', props.pokemon.id)
+}
+
+const openDetailsModal = () => {
+  emit('open-details-modal', props.pokemon)
 }
 </script>
 
@@ -57,5 +63,6 @@ const handleFavorite = () => {
   font-size: 1.125rem;
   font-family: 'Lato', sans-serif;
   font-weight: 500;
+  cursor: pointer;
 }
 </style>

@@ -15,7 +15,7 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
 import router from './router'
-import FooterBar from '@/components/NavBar.vue'
+import FooterBar from './components/NavBar.vue'
 </script>
 
 <style scoped></style>
