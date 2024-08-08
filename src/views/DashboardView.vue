@@ -99,9 +99,10 @@ const closeModal = () => {
   flex-direction: column;
   align-items: center;
   margin-top: 2rem;
+  padding-bottom: 1rem;
   margin-bottom: 2rem;
   background-color: #f9f9f9;
-  height: 100vh;
+  min-height: 100vh;
   gap: 1rem;
 }
 
