@@ -15,7 +15,6 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, defineEmits } from 'vue'
 import type { PokemonInfo } from '../interfaces/PokemonInfo'
 import starIcon from '../assets/selected-star.svg'
 import nonStarIcon from '../assets/non-selected-star.svg'
