@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div v-if="isLoading" class="header">Loading...</div>
+    <div v-if="isLoading" class="loader"><loader /></div>
     <div v-else class="container">
       <div class="header">
         <SearchBar @update-search-term="updateSearchTerm" />
@@ -44,6 +44,7 @@ import type { PokemonWithURL } from '@/interfaces/ApiResponses'
 import { fillFavorites } from '@/utils/fillFavorites'
 import { useAllPokemonsStore } from '@/stores/useAllPokemonsStore'
 import { useLocalStorage } from '@/composables/useLocalStorage'
+import loader from '@/assets/loader.svg'
 
 const { getAllPokemons, isLoading, getPokemonByName } = usePokeApi()
 const { recoverFavoritePokemons, updateFavoritePokemons } = useLocalStorage()
@@ -103,6 +104,21 @@ const closeModal = () => {
 </script>
 
 <style scoped>
+.loader {
+  margin-top: 40vh;
+  animation: breathing 2s ease-in-out infinite;
+}
+
+@keyframes breathing {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+}
+
 .header {
   width: 100%;
 }

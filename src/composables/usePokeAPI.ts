@@ -11,6 +11,8 @@ export const usePokeApi = () => {
   async function getAllPokemons(): Promise<PokemonWithURL[]> {
     isLoading.value = true
     try {
+      // Similate a delay
+      await new Promise((resolve) => setTimeout(resolve, 3000))
       const response = await fetch(POKE_API_URL)
       const data: getAllPokemonsApiResponse = await response.json()
       const enhancedData: PokemonWithURL[] = data.results.map((pokemon) => ({
@@ -28,7 +30,6 @@ export const usePokeApi = () => {
   async function getPokemonByName(url: string): Promise<PokemonInfo | null> {
     try {
       const response = await fetch(`${url}`)
-      console.log(`${POKE_API_URL}/${url}`)
       const apiResponse: PokemonDetailAPIResponse = await response.json()
       const pokemonInfo: PokemonInfo = {
         id: apiResponse.id,
