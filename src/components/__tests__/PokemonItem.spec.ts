@@ -25,9 +25,9 @@ describe('PokemonItem', () => {
     const wrapper = mount(PokemonItem, {
       props: { pokemon: mockPokemon }
     })
-    const img = wrapper.find('.select-info-img')
+    const nonStarIconDiv = wrapper.find('.non-favorite-icon div')
 
-    await img.trigger('click')
+    await nonStarIconDiv.trigger('click')
 
     expect(wrapper.emitted('update-favorite')).toBeTruthy()
     expect(wrapper.emitted('update-favorite')![0]).toEqual([mockPokemon.id])
@@ -38,14 +38,14 @@ describe('PokemonItem', () => {
     const wrapperFavorite = mount(PokemonItem, {
       props: { pokemon: favoritePokemon }
     })
-    expect(wrapperFavorite.find('img').attributes('src')).toBe('/src/assets/selected-star.svg')
+    const starIconDiv = wrapperFavorite.find('.favorite-icon div')
+    expect(starIconDiv.exists()).toBe(true)
 
     const nonFavoritePokemon = { ...mockPokemon, favorite: false }
     const wrapperNonFavorite = mount(PokemonItem, {
       props: { pokemon: nonFavoritePokemon }
     })
-    expect(wrapperNonFavorite.find('img').attributes('src')).toBe(
-      '/src/assets/non-selected-star.svg'
-    )
+    const nonStarIconDiv = wrapperNonFavorite.find('.non-favorite-icon div')
+    expect(nonStarIconDiv.exists()).toBe(true)
   })
 })

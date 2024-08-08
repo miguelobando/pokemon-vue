@@ -1,12 +1,12 @@
 <template>
   <div class="pokemon-item">
     <p class="text-info">{{ pokemon.name }}</p>
-    <div v-if="pokemon.favorite">
+    <div v-if="pokemon.favorite" class="favorite-icon">
       <div @click="handleFavorite">
         <starIcon />
       </div>
     </div>
-    <div v-else>
+    <div v-else class="non-favorite-icon">
       <div @click="handleFavorite">
         <nonStarIcon />
       </div>
