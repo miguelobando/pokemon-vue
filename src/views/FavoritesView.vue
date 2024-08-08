@@ -40,7 +40,6 @@ import { useAllPokemonsStore } from '@/stores/useAllPokemonsStore'
 import { useLocalStorage } from '@/composables/useLocalStorage'
 import { usePokeApi } from '@/composables/usePokeAPI'
 import type { PokemonInfo } from '@/interfaces/PokemonInfo'
-import router from '@/router'
 const { updateFavoritePokemons, recoverFavoritePokemons } = useLocalStorage()
 const { getPokemonByName } = usePokeApi()
 const pokemonStore = useAllPokemonsStore()
