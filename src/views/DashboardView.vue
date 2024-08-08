@@ -6,8 +6,8 @@
         <SearchBar @update-search-term="updateSearchTerm" />
       </div>
 
-      <div v-if="pokemonsToDisplay.length === 0">
-        <NotFoundPokemon />
+      <div v-if="pokemonsToDisplay.length === 0" class="not-found-container">
+        <NotFoundPokemon @go-back-home="goBackHome" />
       </div>
       <div v-else>
         <div class="list">
@@ -45,6 +45,7 @@ import { fillFavorites } from '@/utils/fillFavorites'
 import { useAllPokemonsStore } from '@/stores/useAllPokemonsStore'
 import { useLocalStorage } from '@/composables/useLocalStorage'
 import loader from '@/assets/loader.svg'
+import router from '@/router'
 
 const { getAllPokemons, isLoading, getPokemonByName } = usePokeApi()
 const { recoverFavoritePokemons, updateFavoritePokemons } = useLocalStorage()
@@ -64,6 +65,14 @@ onMounted(() => {
   })
 })
 
+const removeDuplicates = (pokemons: PokemonWithURL[]) => {
+  const uniquePokemons = pokemons.filter((pokemon, index) => {
+    return pokemons.findIndex((p) => p.name === pokemon.name) === index
+  })
+
+  pokemonsToDisplay.value = uniquePokemons
+}
+
 const updateSearchTerm = (newSearchTerm: string) => {
   const toReset = allPokemonsStore.getAllPokemons
   if (newSearchTerm === '') {
@@ -75,7 +84,11 @@ const updateSearchTerm = (newSearchTerm: string) => {
     return pokemon.name.toLowerCase().includes(newSearchTerm.toLowerCase())
   })
 
-  pokemonsToDisplay.value = filteredPokemons
+  removeDuplicates(filteredPokemons)
+}
+
+const goBackHome = () => {
+  updateSearchTerm('')
 }
 
 const updateFavorite = (name: string) => {

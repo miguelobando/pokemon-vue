@@ -5,7 +5,7 @@
     </div>
 
     <div v-if="pokemonsToDisplay.length === 0">
-      <NotFoundPokemon />
+      <NotFoundPokemon @goBackHome="goBackHome" />
     </div>
     <div v-else>
       <div class="list">
@@ -43,11 +43,16 @@ import type { PokemonInfo } from '@/interfaces/PokemonInfo'
 const { updateFavoritePokemons, recoverFavoritePokemons } = useLocalStorage()
 const { getPokemonByName } = usePokeApi()
 const pokemonStore = useAllPokemonsStore()
+import router from '@/router'
 
 const pokemonsToDisplay = ref<PokemonWithURL[]>([])
 
 const detailedPokemon = ref<PokemonInfo>(pokemonInfomock[0])
 const isModalVisible = ref(false)
+
+const goBackHome = () => {
+  router.push('/dashboard')
+}
 
 const updateFavorite = (name: string) => {
   const indexOfFavorite = pokemonsToDisplay.value.findIndex((pokemon) => pokemon.name === name)
@@ -59,7 +64,6 @@ const updateFavorite = (name: string) => {
 }
 
 const openDetailsModal = async (pokemonName: string) => {
-  console.log(pokemonName)
   getPokemonByName(pokemonName.toLowerCase()).then((pokemon) => {
     if (pokemon) {
       const getFavorite = recoverFavoritePokemons()
@@ -86,7 +90,7 @@ const updateSearchTerm = (newSearchTerm: string) => {
     favoriteList.includes(pokemon.name)
   )
 
-  if (newSearchTerm === '') {
+  if (newSearchTerm === '' && pokemonsToDisplay.value.length === 0) {
     pokemonsToDisplay.value = [...toReset]
     return
   }
@@ -98,14 +102,24 @@ const updateSearchTerm = (newSearchTerm: string) => {
   pokemonsToDisplay.value = filteredPokemons
 }
 
+const removeDuplicates = (pokemons: PokemonWithURL[]) => {
+  const uniquePokemons = pokemons.filter((pokemon, index) => {
+    return pokemons.findIndex((p) => p.name === pokemon.name) === index
+  })
+
+  pokemonsToDisplay.value = uniquePokemons
+}
+
 onMounted(() => {
   const allPokemons = pokemonStore.getAllPokemons
 
   const favorites = recoverFavoritePokemons()
+
   const filteredFavorites = allPokemons.filter((pokemon) => {
     return favorites.includes(pokemon.name)
   })
-  pokemonsToDisplay.value = filteredFavorites
+
+  removeDuplicates(filteredFavorites)
 })
 </script>
 

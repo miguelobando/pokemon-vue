@@ -10,9 +10,12 @@
 import router from '@/router'
 import ActionBtn from './ActionBtn.vue'
 
-const goToHome = () => {
-  router.push('/')
-  router.go(0)
+const emit = defineEmits<{
+  (e: 'goBackHome'): void
+}>()
+
+const goToHome = async () => {
+  emit('goBackHome')
 }
 </script>
 
