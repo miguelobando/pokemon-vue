@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterView } from 'vue-router'
 import router from './router'
 import FooterBar from './components/NavBar.vue'
 </script>
