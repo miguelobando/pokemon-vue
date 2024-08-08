@@ -1,61 +1,39 @@
 # pokemon-vue
 
-This template should help get you started developing with Vue 3 in Vite.
+Pokemon vue project created with Vue 3, Vite Pinia, Vue Router, Typescript, ESLint, Prettier, Cypress, and Vitest.
 
-## Recommended IDE Setup
+## Project setup
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+```bash
+yarn global add yarn
+yarn install
+yarn dev
 
-## Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
+## To run the tests
+yarn test:unit
 ```
 
-### Compile and Hot-Reload for Development
+## Project structure
 
-```sh
-npm run dev
-```
+- **assets**: contains all the images used in the project
+- **components**: contains all the components used in the project
+- **composables**: contains all the composables used in the project (usePokeAPI, useLocalStorage)
+- **interfaces**: contains all the interfaces used in the project
+- **stores**: contains all the stores used in the project (useAllPokemonsStore)
+- **utils**: contains all the utils used in the project
+- **views**: contains all the views used in the project (screens of the app)
+- **App.vue**: the main component of the project
+- **router**: the router of the project
+- **main.ts**: the main file of the project
+- **index.html**: the html file of the project
 
-### Type-Check, Compile and Minify for Production
+## Tecnical decisions used in the project
 
-```sh
-npm run build
-```
-
-### Run Unit Tests with [Vitest](https://vitest.dev/)
-
-```sh
-npm run test:unit
-```
-
-### Run End-to-End Tests with [Cypress](https://www.cypress.io/)
-
-```sh
-npm run test:e2e:dev
-```
-
-This runs the end-to-end tests against the Vite development server.
-It is much faster than the production build.
-
-But it's still recommended to test the production build with `test:e2e` before deploying (e.g. in CI environments):
-
-```sh
-npm run build
-npm run test:e2e
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+- Used composables to handle the API calls
+- Used the storage to share the favorites between sessions
+- Used localStorage to store the favorites
+- Created just the three views of the app (Dashboard, Favorites, and Home) and leave the components to be reused
+- Used plain HTML and CSS to style the app
+- Used the Vitest as test runner , i also didnt coverage the whole project just a few componets to demostrate that i know how to use it
+- Used the Prettier formatter to format the code
+- Used Typescript to statically type the project and avoid runtime errors
