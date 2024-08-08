@@ -161,6 +161,10 @@ const closeModal = () => {
   gap: 0.5rem;
 }
 
-@media only screen and (min-device-width: 400px) {
+@media only screen and (max-width: 600px) {
+  .header {
+    width: 91%;
+    padding-right: 26px;
+  }
 }
 </style>

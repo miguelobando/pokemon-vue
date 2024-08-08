@@ -147,8 +147,10 @@ onMounted(() => {
   gap: 0.5rem;
 }
 
-@media only screen and (min-device-width: 600px) {
-  .container {
+@media only screen and (max-width: 600px) {
+  .header {
+    width: 74%;
+    padding-right: 26px;
   }
 }
 </style>
