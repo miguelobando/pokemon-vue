@@ -10,7 +10,7 @@
         <div class="modal-actions">
           <ActionBtn msg="Share with my friends" :clickFn="shareWithFriends" />
           <div class="favorite-button">
-            <div v-if="pokemon.favorite" class="favorite-icon">
+            <div v-if="favoriteStatus" class="favorite-icon">
               <div @click="handleFavorite">
                 <selected />
               </div>
@@ -34,6 +34,7 @@ import ModalImage from './ModalImage.vue'
 import ActionBtn from '../ActionBtn.vue'
 import nonSelected from '../../assets/non-selected-star.svg'
 import selected from '../../assets/selected-star.svg'
+import { ref } from 'vue'
 const props = defineProps<{
   pokemon: PokemonInfo
 }>()
@@ -45,7 +46,10 @@ const emit = defineEmits<{
 
 const handleFavorite = () => {
   emit('update-favorite', props.pokemon.name)
+  favoriteStatus.value = !favoriteStatus.value
 }
+
+const favoriteStatus = ref(!props.pokemon.favorite)
 
 const closeModal = () => {
   emit('close')
