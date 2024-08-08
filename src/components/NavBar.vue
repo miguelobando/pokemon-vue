@@ -1,8 +1,13 @@
 <template>
   <div :class="['footer', { sticky: isSticky }]">
     <div class="footer-content">
-      <IconActionBtn actionType="all" msg="All" :clickFn="goToDashboard" />
-      <IconActionBtn actionType="favorites" msg="Favorites" :clickFn="goToFavorites" />
+      <IconActionBtn :active="activeAll" actionType="all" msg="All" :clickFn="goToDashboard" />
+      <IconActionBtn
+        :active="activeFavorites"
+        actionType="favorites"
+        msg="Favorites"
+        :clickFn="goToFavorites"
+      />
     </div>
   </div>
 </template>
@@ -15,12 +20,19 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 
 const goToDashboard = () => {
+  activeFavorites.value = false
+  activeAll.value = true
   router.push('/dashboard')
 }
 
 const goToFavorites = () => {
+  activeFavorites.value = true
+  activeAll.value = false
   router.push('/favorites')
 }
+
+const activeAll = ref(true)
+const activeFavorites = ref(false)
 
 const isSticky = ref(false)
 

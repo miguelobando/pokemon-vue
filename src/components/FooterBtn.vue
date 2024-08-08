@@ -1,8 +1,8 @@
 <template>
   <button
     :class="{
-      'action-type-all': props.actionType === 'all',
-      'action-type-favorites': props.actionType === 'favorites'
+      'action-type-active': props.active === true,
+      'action-type-inactive': props.active === false
     }"
     @click="clickFn"
   >
@@ -19,6 +19,7 @@ const props = defineProps<{
   msg: string
   clickFn: (event: MouseEvent) => void
   actionType: 'all' | 'favorites'
+  active: boolean
 }>()
 </script>
 
@@ -42,13 +43,13 @@ button {
   border: none;
 }
 
-.action-type-all {
+.action-type-active {
   background: #f22539;
   color: white;
 }
 
-.action-type-favorites {
-  background: #bfbfbf;
+.action-type-inactive {
+  background: #bfbfbf87;
   color: white;
 }
 @media only screen and (max-width: 600px) {

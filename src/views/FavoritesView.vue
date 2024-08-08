@@ -107,6 +107,10 @@ const removeDuplicates = (pokemons: PokemonWithURL[]) => {
     return pokemons.findIndex((p) => p.name === pokemon.name) === index
   })
 
+  uniquePokemons.forEach((pokemon) => {
+    pokemon.favorite = true
+  })
+
   pokemonsToDisplay.value = uniquePokemons
 }
 
