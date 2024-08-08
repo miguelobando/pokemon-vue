@@ -94,6 +94,10 @@ const closeModal = () => {
 </script>
 
 <style>
+.header {
+  width: 100%;
+}
+
 .container {
   display: flex;
   flex-direction: column;
