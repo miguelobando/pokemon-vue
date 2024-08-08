@@ -40,11 +40,11 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   (e: 'close'): void
-  (e: 'update-favorite', id: number): void
+  (e: 'update-favorite', name: string): void
 }>()
 
 const handleFavorite = () => {
-  emit('update-favorite', props.pokemon.id)
+  emit('update-favorite', props.pokemon.name)
 }
 
 const closeModal = () => {

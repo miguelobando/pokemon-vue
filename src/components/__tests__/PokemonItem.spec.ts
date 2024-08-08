@@ -1,16 +1,13 @@
 import { describe, it, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
 import PokemonItem from '../PokemonItem.vue'
-import type { PokemonInfo } from '../../interfaces/PokemonInfo'
+import type { PokemonWithURL } from '@/interfaces/ApiResponses'
+// import type { PokemonInfo } from '../../interfaces/PokemonInfo'
 
 describe('PokemonItem', () => {
-  const mockPokemon: PokemonInfo = {
-    id: 1,
+  const mockPokemon: PokemonWithURL = {
     name: 'Pikachu',
-    imageURL: '',
-    types: ['Electric'],
-    weight: 60,
-    height: 4,
+    url: 'aasdfasdf.com',
     favorite: false
   }
 
@@ -30,7 +27,7 @@ describe('PokemonItem', () => {
     await nonStarIconDiv.trigger('click')
 
     expect(wrapper.emitted('update-favorite')).toBeTruthy()
-    expect(wrapper.emitted('update-favorite')![0]).toEqual([mockPokemon.id])
+    expect(wrapper.emitted('update-favorite')![0]).toEqual([mockPokemon.name])
   })
 
   it('displays the correct image based on the favorite status', () => {

@@ -38,7 +38,7 @@ body {
   margin-top: 2rem;
   display: flex;
   align-items: center;
-  width: 40vw;
+  width: 50vw;
   max-width: 400px;
   background: #fff;
   border-radius: 5px;

@@ -15,26 +15,25 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, defineEmits } from 'vue'
-import type { PokemonInfo } from '../interfaces/PokemonInfo'
 import starIcon from '../assets/selected-star.svg'
 import nonStarIcon from '../assets/non-selected-star.svg'
+import type { PokemonWithURL } from '@/interfaces/ApiResponses'
 
 const props = defineProps<{
-  pokemon: PokemonInfo
+  pokemon: PokemonWithURL
 }>()
 
 const emit = defineEmits<{
-  (e: 'update-favorite', id: number): void
-  (e: 'open-details-modal', pokemon: PokemonInfo): void
+  (e: 'update-favorite', name: string): void
+  (e: 'open-details-modal', pokemonURL: string): void
 }>()
 
 const handleFavorite = () => {
-  emit('update-favorite', props.pokemon.id)
+  emit('update-favorite', props.pokemon.name)
 }
 
 const openDetailsModal = () => {
-  emit('open-details-modal', props.pokemon)
+  emit('open-details-modal', props.pokemon.url)
 }
 </script>
 

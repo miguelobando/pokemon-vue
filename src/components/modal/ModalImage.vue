@@ -10,7 +10,6 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, defineEmits } from 'vue'
 import backgroundUrl from '@/assets/modal-background.png'
 
 defineProps<{

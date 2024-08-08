@@ -1,53 +1,59 @@
 <template>
   <div class="container">
-    <div class="header">
-      <SearchBar @update-search-term="updateSearchTerm" />
-    </div>
+    <div v-if="isLoading" class="header">Loading...</div>
+    <div v-else class="container">
+      <div class="header">
+        <SearchBar @update-search-term="updateSearchTerm" />
+      </div>
 
-    <div v-if="pokemonsToDisplay.length === 0">
-      <NotFoundPokemon />
-    </div>
-    <div v-else>
-      <div class="list">
-        <div v-for="pokemon in pokemonsToDisplay" :key="pokemon.id">
-          <PokemonItem
-            :pokemon="pokemon"
-            @update-favorite="updateFavorite"
-            @open-details-modal="openDetailsModal"
-          />
+      <div v-if="pokemonsToDisplay.length === 0">
+        <NotFoundPokemon />
+      </div>
+      <div v-else>
+        <div class="list">
+          <div v-for="pokemon in pokemonsToDisplay" :key="pokemon.name">
+            <PokemonItem
+              :pokemon="pokemon"
+              @update-favorite="updateFavorite"
+              @open-details-modal="openDetailsModal"
+            />
+          </div>
         </div>
       </div>
-    </div>
 
-    <DetailsModal
-      @update-favorite="updateFavorite"
-      :pokemon="detailedPokemon"
-      v-if="isModalVisible"
-      @close="closeModal"
-    />
+      <DetailsModal
+        @update-favorite="updateFavorite"
+        :pokemon="detailedPokemon"
+        v-if="isModalVisible"
+        @close="closeModal"
+      />
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import SearchBar from '@/components/SearchBar.vue'
 import type { PokemonInfo } from '@/interfaces/PokemonInfo'
 import { pokemonInfomock } from '@/components/mocks/pokemonInfoMock'
 import PokemonItem from '../components/PokemonItem.vue'
 import NotFoundPokemon from '../components/NotFoundPokemon.vue'
 import DetailsModal from '../components/modal/DetailsModal.vue'
-
-const allPokemons = ref<PokemonInfo[]>([...pokemonInfomock])
-const pokemonsToDisplay = ref<PokemonInfo[]>([...pokemonInfomock])
+import { usePokeApi } from '@/composables/usePokeAPI'
+import type { PokemonWithURL } from '@/interfaces/ApiResponses'
+const { getAllPokemons, isLoading, getPokemonByName } = usePokeApi()
+const allPokemons = ref<PokemonWithURL[]>([])
+const pokemonsToDisplay = ref<PokemonWithURL[]>([])
 const isModalVisible = ref(false)
-const detailedPokemon = ref<PokemonInfo>({
-  id: 1,
-  name: 'Bulbasaur',
-  imageURL: '',
-  types: ['Grass'],
-  weight: 69,
-  height: 7,
-  favorite: false
+
+// This is used as referefence
+const detailedPokemon = ref<PokemonInfo>(pokemonInfomock[0])
+
+onMounted(() => {
+  getAllPokemons().then((data) => {
+    allPokemons.value = data
+    pokemonsToDisplay.value = data
+  })
 })
 
 const updateSearchTerm = (newSearchTerm: string) => {
@@ -63,17 +69,23 @@ const updateSearchTerm = (newSearchTerm: string) => {
   pokemonsToDisplay.value = filteredPokemons
 }
 
-const updateFavorite = (id: number) => {
-  const indexOfFavorite = pokemonsToDisplay.value.findIndex((pokemon) => pokemon.id === id)
+const updateFavorite = (name: string) => {
+  const indexOfFavorite = pokemonsToDisplay.value.findIndex((pokemon) => pokemon.name === name)
   if (indexOfFavorite !== -1) {
     pokemonsToDisplay.value[indexOfFavorite].favorite =
       !pokemonsToDisplay.value[indexOfFavorite].favorite
   }
 }
 
-const openDetailsModal = (pokemon: PokemonInfo) => {
-  isModalVisible.value = true
-  detailedPokemon.value = pokemon
+const openDetailsModal = async (pokemonName: string) => {
+  getPokemonByName(pokemonName.toLowerCase()).then((pokemon) => {
+    if (pokemon) {
+      detailedPokemon.value = pokemon
+      isModalVisible.value = true
+    } else {
+      console.log('pokemon not found')
+    }
+  })
 }
 
 const closeModal = () => {
