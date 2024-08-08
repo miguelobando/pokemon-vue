@@ -51,4 +51,10 @@ button {
   background: #bfbfbf;
   color: white;
 }
+@media only screen and (max-width: 600px) {
+  button {
+    width: 50%;
+    padding: 0.6875rem 0.5rem;
+  }
+}
 </style>

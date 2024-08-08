@@ -63,12 +63,9 @@ onMounted(() => {
   background-color: #333;
   color: #fff;
   text-align: center;
-
-  /* Position the sticky footer at the bottom of the page */
   transform: translateY(calc(-100% - 2rem));
 }
 
-/* Hide the sticky footer on mobile devices */
 @media only screen and (max-width: 600px) {
   .footer {
     position: relative;
@@ -76,12 +73,19 @@ onMounted(() => {
     left: auto;
     width: 100%;
     padding: 1rem;
-    background-color: #333;
+    background-color: #fff;
     color: #fff;
     text-align: center;
+    margin-top: 1px;
+  }
 
-    /* Add some margin to the footer for better spacing */
-    margin-top: 2rem;
+  .footer-content {
+    display: flex;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
   }
 }
 </style>
