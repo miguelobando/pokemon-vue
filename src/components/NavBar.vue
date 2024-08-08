@@ -10,7 +10,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import IconActionBtn from './FooterBtn.vue'
-import { router } from '@/router'
+import router from '@/router'
 
 const goToDashboard = () => {
   router.push('/dashboard')
