@@ -50,7 +50,6 @@ const { getAllPokemons, isLoading, getPokemonByName } = usePokeApi()
 const { recoverFavoritePokemons, updateFavoritePokemons } = useLocalStorage()
 const allPokemonsStore = useAllPokemonsStore()
 
-const allPokemons = ref<PokemonWithURL[]>([])
 const pokemonsToDisplay = ref<PokemonWithURL[]>([])
 const isModalVisible = ref(false)
 
@@ -66,12 +65,13 @@ onMounted(() => {
 })
 
 const updateSearchTerm = (newSearchTerm: string) => {
+  const toReset = allPokemonsStore.getAllPokemons
   if (newSearchTerm === '') {
-    pokemonsToDisplay.value = [...allPokemons.value]
+    pokemonsToDisplay.value = [...toReset]
     return
   }
 
-  const filteredPokemons = allPokemons.value.filter((pokemon) => {
+  const filteredPokemons = toReset.filter((pokemon) => {
     return pokemon.name.toLowerCase().includes(newSearchTerm.toLowerCase())
   })
 
@@ -90,7 +90,13 @@ const updateFavorite = (name: string) => {
 const openDetailsModal = async (pokemonName: string) => {
   getPokemonByName(pokemonName.toLowerCase()).then((pokemon) => {
     if (pokemon) {
-      detailedPokemon.value = pokemon
+      const getFavorite = recoverFavoritePokemons()
+      const isFavorite = getFavorite.includes(pokemon.name)
+
+      detailedPokemon.value = {
+        ...pokemon,
+        favorite: isFavorite
+      }
       isModalVisible.value = true
     } else {
       console.error('pokemon not found')

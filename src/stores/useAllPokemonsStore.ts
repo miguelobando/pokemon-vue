@@ -18,7 +18,7 @@ export const useAllPokemonsStore = defineStore('allPokemons', {
     }
   },
   getters: {
-    getAllPokemons(state) {
+    getAllPokemons(state): PokemonWithURL[] {
       return state.allPokemons
     }
   }

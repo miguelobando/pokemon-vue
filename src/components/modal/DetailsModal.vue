@@ -34,7 +34,7 @@ import ModalImage from './ModalImage.vue'
 import ActionBtn from '../ActionBtn.vue'
 import nonSelected from '../../assets/non-selected-star.svg'
 import selected from '../../assets/selected-star.svg'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 const props = defineProps<{
   pokemon: PokemonInfo
 }>()
@@ -44,12 +44,16 @@ const emit = defineEmits<{
   (e: 'update-favorite', name: string): void
 }>()
 
+onMounted(() => {
+  favoriteStatus.value = props.pokemon.favorite
+})
+
 const handleFavorite = () => {
-  emit('update-favorite', props.pokemon.name)
   favoriteStatus.value = !favoriteStatus.value
+  emit('update-favorite', props.pokemon.name)
 }
 
-const favoriteStatus = ref(!props.pokemon.favorite)
+const favoriteStatus = ref(false)
 
 const closeModal = () => {
   emit('close')
